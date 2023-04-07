@@ -1,0 +1,5 @@
+{
+  "appService.zipIgnorePattern": ["node_modules{,/**}", ".vscode{,/**}"],
+  "appService.defaultWebAppToDeploy": "/subscriptions/3b5e2990-0f32-4327-986a-8511f9e9e3ae/resourceGroups/Cooking-Calendar/providers/Microsoft.Web/sites/cooking-calendar-client",
+  "appService.deploySubpath": "."
+}

@@ -1,0 +1,19 @@
+.content-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: transparent;
+}
+
+.div-top {
+  position: relative;
+}
+
+// $menu-height: 50px;
+
+// .div-top {
+//   margin-top: $menu-height;
+//   height: calc(100% - $menu-height);
+// }

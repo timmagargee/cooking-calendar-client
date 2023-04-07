@@ -1,0 +1,35 @@
+<div class="card">
+  <h4 class="card-header">Login</h4>
+  <div class="card-body">
+    <div class="input-col-fixed">
+      <app-text-input
+        heading="Username"
+        [(ngModel)]="formData.username"
+        [required]="true"
+      ></app-text-input>
+    </div>
+    <div class="input-col-fixed mt-2">
+      <app-text-input
+        heading="Password"
+        [(ngModel)]="formData.password"
+        [required]="true"
+      ></app-text-input>
+    </div>
+    <div class="mt-2">
+      <button
+        [disabled]="loading || !isValid()"
+        class="btn btn-primary me-2"
+        (click)="onSubmit()"
+      >
+        Login
+      </button>
+      <button
+        [disabled]="loading"
+        class="btn btn-primary"
+        (click)="goToAccountCreation()"
+      >
+        Create Account
+      </button>
+    </div>
+  </div>
+</div>

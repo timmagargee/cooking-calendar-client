@@ -1,0 +1,111 @@
+@import "./variables.scss";
+@import "./mixins.scss";
+
+/* Importing Bootstrap SCSS file. */
+@import "bootstrap/scss/bootstrap";
+
+/* You can add global styles to this file, and also import other style files */
+
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  padding: 0px;
+  padding-top: $menu-height;
+  font-family: "Cardo", sans-serif;
+}
+
+h1 {
+  font-size: 26px;
+  font-weight: bold;
+  font-family: "Oswald", sans-serif;
+}
+
+h2 {
+  font-size: 22px;
+  font-style: italic;
+  font-family: "Oswald", sans-serif;
+}
+
+h3 {
+  font-size: 18px;
+  font-family: "Oswald", sans-serif;
+}
+
+nav {
+  min-height: $menu-height !important;
+}
+
+.cc-padding {
+  padding: 35px 25px 10px 25px;
+}
+
+.container,
+.container-fluid,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xl {
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+
+.wrap-disabled {
+  background-color: $color-white-disabled;
+}
+
+//Bootstrap Columns
+.input-container {
+  @include make-container();
+}
+
+.input-row {
+  @include make-row();
+}
+
+.input-col {
+  @include make-col-ready();
+
+  @include media-breakpoint-up(sm) {
+    @include make-col(6);
+  }
+  @include media-breakpoint-up(md) {
+    @include make-col(4);
+  }
+  @include media-breakpoint-up(lg) {
+    @include make-col(3);
+  }
+  @include media-breakpoint-up(xl) {
+    @include make-col(2);
+  }
+}
+
+.input-col-fixed {
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.home-row {
+  @include make-row();
+}
+
+.home-col {
+  @include make-col-ready();
+
+  @include media-breakpoint-up(sm) {
+    @include make-col(12);
+  }
+  @include media-breakpoint-up(md) {
+    @include make-col(6);
+  }
+  @include media-breakpoint-up(lg) {
+    @include make-col(4);
+  }
+
+  text-align: center;
+  border-style: solid;
+  border-radius: 1px;
+  border-width: 1px;
+  border-color: black;
+}

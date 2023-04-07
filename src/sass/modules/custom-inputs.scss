@@ -1,0 +1,15 @@
+@use "../variables.scss";
+
+@mixin info-icon($color) {
+  background-color: $color;
+  padding-right: 10px;
+  cursor: pointer;
+}
+
+#icon-error {
+  @include info-icon($color-danger);
+}
+
+#icon-warning {
+  @include info-icon($color-warning);
+}

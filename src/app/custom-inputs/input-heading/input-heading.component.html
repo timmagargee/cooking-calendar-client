@@ -1,0 +1,15 @@
+<div
+  id="div-heading"
+  *ngIf="heading"
+  class="heading"
+  [ngClass]="{
+    'label-left': labelPosition === 'left',
+    'label-right': labelPosition === 'right'
+  }"
+  [style.width]="labelWidth"
+>
+  <span *ngIf="required && !isReadonly()" id="span-required">*</span>
+  <label class="input-label" [attr.for]="labelFor || null" id="label-heading">{{
+    heading
+  }}</label>
+</div>

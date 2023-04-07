@@ -1,0 +1,61 @@
+<div *ngIf="labelPosition === 'left'; else input" class="label-left">
+  <ng-container *ngTemplateOutlet="input"></ng-container>
+</div>
+<ng-template #input>
+  <app-input-heading
+    [heading]="heading"
+    [required]="required"
+    [readonly]="readonly"
+    [labelPosition]="labelPosition"
+    [labelWidth]="labelWidth"
+  ></app-input-heading>
+  <!-- *ngIf="!isReadonly(); else readonlyValue" -->
+  <div
+    class="input-wrap"
+    [style.border-color]="getBorderColor()"
+    [ngClass]="{ 'wrap-disabled': isDisabled() }"
+  >
+    <input
+      *ngIf="!isLoadingData(); else loadingData"
+      class="input-field"
+      [placeholder]="placeholder || ''"
+      [disabled]="isDisabled()"
+      [(ngModel)]="value"
+      (blur)="triggerOnTouched()"
+      (input)="handleInput($event)"
+      (change)="handleChange($event)"
+      [type]="getType()"
+      [maxlength]="getMaxLength()"
+    />
+    <fa-icon
+      *ngIf="hasErrors()"
+      id="icon-error"
+      [icon]="faExclamationTriangle"
+      size="lg"
+      class="pr10 error-color pointer"
+      (click)="errorTooltip.toggle()"
+      [matTooltip]="transform(errors)"
+      #errorTooltip="matTooltip"
+      matTooltipClass="tooltip-list error"
+      matTooltipPosition="above"
+    ></fa-icon>
+    <fa-icon
+      *ngIf="hasWarnings()"
+      id="icon-warning"
+      [icon]="faExclamationCircle"
+      size="lg"
+      class="pr10 warning-color pointer"
+      (click)="warningTooltip.toggle()"
+      [matTooltip]="transform(warnings)"
+      #warningTooltip="matTooltip"
+      matTooltipClass="tooltip-list warning"
+      matTooltipPosition="above"
+    ></fa-icon>
+  </div>
+</ng-template>
+<!-- <ng-template #readonlyValue>
+  <e2g-read-only [value]="value"></e2g-read-only>
+</ng-template> -->
+<ng-template #loadingData>
+  <span class="loading-inline left"></span>
+</ng-template>
