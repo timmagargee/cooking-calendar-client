@@ -1,0 +1,33 @@
+<app-text-input
+  heading="Name"
+  [placeholder]="getPlaceholder()"
+  [(ngModel)]="formData.name"
+>
+</app-text-input>
+
+<mat-radio-group
+  aria-labelledby="example-radio-group-label"
+  class="example-radio-group"
+  [(ngModel)]="formData.categoryType"
+>
+  <div class="d-flex flex-row">
+    <mat-radio-button [value]="type.Tag"> Tag </mat-radio-button>
+    <app-select-input
+      class="ms-2"
+      [(ngModel)]="formData.tagId"
+      [options]="tags"
+    >
+    </app-select-input>
+  </div>
+  <div class="d-flex flex-row">
+    <mat-radio-button [value]="type.Ingredient"> Ingredient </mat-radio-button>
+    <app-select-input
+      class="ms-2"
+      [(ngModel)]="formData.ingredientId"
+      [options]="ingredients"
+    >
+    </app-select-input>
+  </div>
+  <mat-radio-button [value]="type.Unplanned"> Unplanned </mat-radio-button>
+  <mat-radio-button [value]="type.Random"> Random </mat-radio-button>
+</mat-radio-group>

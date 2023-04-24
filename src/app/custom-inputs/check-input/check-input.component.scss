@@ -1,0 +1,27 @@
+@import "../../../sass/mixins.scss";
+@import "../../../sass/modules/custom-inputs.scss";
+
+.input-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: calc(1.5em + 0.75rem + 2px);
+}
+
+.form-checkbox {
+  height: 20px;
+  width: 20px;
+}
+
+.label-right :nth-child(1) {
+  order: 2;
+}
+.label-right :nth-child(2) {
+  order: 1;
+}
+.label-right :nth-child(3) {
+  order: 3;
+}
+.label-right :nth-child(4) {
+  order: 4;
+}

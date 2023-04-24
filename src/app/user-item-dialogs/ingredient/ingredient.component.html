@@ -1,0 +1,18 @@
+<app-text-input heading="Ingredient Name" [(ngModel)]="formData.name">
+</app-text-input>
+
+<app-check-input
+  heading="Meat"
+  [(ngModel)]="formData.isMeat"
+  [labelWidth]="labelWidth"
+></app-check-input>
+<app-check-input
+  heading="Dairy"
+  [(ngModel)]="formData.isDairy"
+  [labelWidth]="labelWidth"
+></app-check-input>
+<app-check-input
+  heading="Gluten"
+  [(ngModel)]="formData.isGluten"
+  [labelWidth]="labelWidth"
+></app-check-input>

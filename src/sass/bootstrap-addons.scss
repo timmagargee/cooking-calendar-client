@@ -1,0 +1,62 @@
+@import "bootstrap/scss/bootstrap";
+
+.c-header {
+  font-size: x-large;
+  font-weight: bold;
+  text-align: center;
+}
+
+//Bootstrap Columns
+.input-container {
+  @include make-container();
+}
+
+.input-row {
+  @include make-row();
+}
+
+.input-col {
+  @include make-col-ready();
+
+  @include media-breakpoint-up(sm) {
+    @include make-col(6);
+  }
+  @include media-breakpoint-up(md) {
+    @include make-col(4);
+  }
+  @include media-breakpoint-up(lg) {
+    @include make-col(3);
+  }
+  @include media-breakpoint-up(xl) {
+    @include make-col(2);
+  }
+}
+
+.input-col-fixed {
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.home-row {
+  @include make-row();
+}
+
+.home-col {
+  @include make-col-ready();
+
+  @include media-breakpoint-up(sm) {
+    @include make-col(12);
+  }
+  @include media-breakpoint-up(md) {
+    @include make-col(6);
+  }
+  @include media-breakpoint-up(lg) {
+    @include make-col(4);
+  }
+
+  text-align: center;
+  border-style: solid;
+  border-radius: 1px;
+  border-width: 1px;
+  border-color: black;
+}

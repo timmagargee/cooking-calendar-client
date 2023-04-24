@@ -15,33 +15,38 @@ const routes: Routes = [
         path: 'home',
         component: HomeComponent,
       },
+      {
+        path: 'account',
+        loadChildren: () =>
+          import('./account-module/account.module').then(
+            (x) => x.AccountModule
+          ),
+      },
+      {
+        path: 'calendar',
+        loadChildren: () =>
+          import('./calendar-module/calendar.module').then(
+            (x) => x.CalendarModule
+          ),
+      },
+      {
+        path: 'recipe',
+        loadChildren: () =>
+          import('./recipe-module/recipe.module').then((x) => x.RecipeModule),
+      },
+      {
+        path: 'shopping',
+        loadChildren: () =>
+          import('./shopping-module/shopping.module').then(
+            (x) => x.ShoppingModule
+          ),
+      },
     ],
   },
-  //{ path: 'users', loadChildren: usersModule, canActivate: [AuthGuard] },
   {
     path: 'login',
     loadChildren: () =>
       import('./login-module/login.module').then((x) => x.LoginModule),
-  },
-  {
-    path: 'account',
-    loadChildren: () =>
-      import('./account-module/account.module').then((x) => x.AccountModule),
-  },
-  {
-    path: 'calendar',
-    loadChildren: () =>
-      import('./calendar-module/calendar.module').then((x) => x.CalendarModule),
-  },
-  {
-    path: 'recipe',
-    loadChildren: () =>
-      import('./recipe-module/recipe.module').then((x) => x.RecipeModule),
-  },
-  {
-    path: 'shopping',
-    loadChildren: () =>
-      import('./shopping-module/shopping.module').then((x) => x.ShoppingModule),
   },
 
   // otherwise redirect to home

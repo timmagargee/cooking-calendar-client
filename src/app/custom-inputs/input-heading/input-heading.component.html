@@ -9,7 +9,7 @@
   [style.width]="labelWidth"
 >
   <span *ngIf="required && !isReadonly()" id="span-required">*</span>
-  <label class="input-label" [attr.for]="labelFor || null" id="label-heading">{{
-    heading
-  }}</label>
+  <label class="input-label" [attr.for]="labelFor || null" id="label-heading"
+    >{{ heading }}:</label
+  >
 </div>

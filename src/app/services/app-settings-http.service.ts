@@ -26,8 +26,6 @@ export class AppSettingsHttpService {
         );
 
       firstValueFrom(test).then((response) => {
-        console.log('RESPONSE FROM ASSETS/SETTING.JSON');
-        console.log(response);
         this.appSettingsService.updateSettings(response as AppSettings);
         resolve();
       });

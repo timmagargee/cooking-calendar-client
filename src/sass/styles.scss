@@ -1,19 +1,33 @@
+@import "ag-grid-community/styles/ag-grid.css";
+@import "~ag-grid-community/styles/ag-theme-balham.css";
+@import "~ag-grid-community/styles/ag-theme-material.css";
 @import "./variables.scss";
 @import "./mixins.scss";
-
-/* Importing Bootstrap SCSS file. */
+@import "./bootstrap-addons.scss";
 @import "bootstrap/scss/bootstrap";
-
 /* You can add global styles to this file, and also import other style files */
 
 html {
   height: 100%;
 }
+
 body {
   height: 100%;
   padding: 0px;
   padding-top: $menu-height;
   font-family: "Cardo", sans-serif;
+}
+
+.page-top-bar {
+  display: flex;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+}
+
+.page-title {
+  font-size: 42px;
+  font-weight: bold;
+  padding: 8px;
 }
 
 h1 {
@@ -33,12 +47,16 @@ h3 {
   font-family: "Oswald", sans-serif;
 }
 
+.large {
+  font-size: 24px;
+}
+
 nav {
   min-height: $menu-height !important;
 }
 
 .cc-padding {
-  padding: 35px 25px 10px 25px;
+  padding: 25px 25px 10px 25px;
 }
 
 .container,
@@ -55,57 +73,54 @@ nav {
   background-color: $color-white-disabled;
 }
 
-//Bootstrap Columns
-.input-container {
-  @include make-container();
+.loading-input {
+  width: 32px;
+  height: 32px;
+  background: url("../assets/images/loading.gif") no-repeat;
 }
 
-.input-row {
-  @include make-row();
+.loading-inline-small {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  z-index: 999;
+  background: url("../assets/images/loading.gif") no-repeat;
+  background-size: 16px 16px;
 }
 
-.input-col {
-  @include make-col-ready();
-
-  @include media-breakpoint-up(sm) {
-    @include make-col(6);
-  }
-  @include media-breakpoint-up(md) {
-    @include make-col(4);
-  }
-  @include media-breakpoint-up(lg) {
-    @include make-col(3);
-  }
-  @include media-breakpoint-up(xl) {
-    @include make-col(2);
-  }
+.loading {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
+  background: url("../assets/images/loading.gif") no-repeat;
 }
 
-.input-col-fixed {
-  min-width: 300px;
-  max-width: 400px;
+.loading-inline {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
+  z-index: 999;
+  background: url("../assets/images/loading.gif") no-repeat;
 }
 
-.home-row {
-  @include make-row();
+option:disabled {
+  background-color: $color-white-disabled;
 }
 
-.home-col {
-  @include make-col-ready();
-
-  @include media-breakpoint-up(sm) {
-    @include make-col(12);
-  }
-  @include media-breakpoint-up(md) {
-    @include make-col(6);
-  }
-  @include media-breakpoint-up(lg) {
-    @include make-col(4);
-  }
-
-  text-align: center;
+.line {
+  border-top: 1px;
   border-style: solid;
-  border-radius: 1px;
-  border-width: 1px;
+  border-color: $color-gray;
+}
+
+.fraction-separator {
+  border-top: 1px;
+  border-style: solid;
   border-color: black;
+}
+
+.clickable-icon {
+  cursor: pointer;
 }

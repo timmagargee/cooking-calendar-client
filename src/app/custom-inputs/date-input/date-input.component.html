@@ -1,0 +1,68 @@
+<div *ngIf="labelPosition === 'left'; else input" class="label-left">
+  <ng-container *ngTemplateOutlet="input"></ng-container>
+</div>
+<ng-template #input>
+  <app-input-heading
+    [heading]="heading"
+    [required]="required"
+    [readonly]="readonly"
+    [labelPosition]="labelPosition"
+    [labelWidth]="labelWidth"
+  ></app-input-heading>
+
+  <div
+    *ngIf="!isReadonly(); else readonlyValue"
+    class="input-wrap"
+    [style.border-color]="getBorderColor()"
+    [ngClass]="{ 'wrap-disabled': isDisabled() }"
+  >
+    <input
+      *ngIf="!isLoadingData(); else loadingData"
+      class="input-field"
+      [placeholder]="placeholder || ''"
+      [disabled]="isDisabled()"
+      [readonly]="pickerOnly"
+      [(ngModel)]="value"
+      (blur)="triggerOnTouched()"
+      (dateInput)="handleDateInput()"
+      (dateChange)="handleDateChange()"
+      matInput
+      [matDatepicker]="picker"
+      [style]="style"
+    />
+    <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <fa-icon
+      *ngIf="hasErrors()"
+      id="icon-error"
+      [icon]="faExclamationTriangle"
+      size="lg"
+      class="pr10 error-color pointer"
+      (click)="errorTooltip.toggle()"
+      [matTooltip]="transform(errors)"
+      #errorTooltip="matTooltip"
+      matTooltipClass="tooltip-list error"
+      matTooltipPosition="above"
+    ></fa-icon>
+    <fa-icon
+      *ngIf="hasWarnings()"
+      id="icon-warning"
+      [icon]="faExclamationCircle"
+      size="lg"
+      class="pr10 warning-color pointer"
+      (click)="warningTooltip.toggle()"
+      [matTooltip]="transform(warnings)"
+      #warningTooltip="matTooltip"
+      matTooltipClass="tooltip-list warning"
+      matTooltipPosition="above"
+    ></fa-icon>
+  </div>
+</ng-template>
+<ng-template #readonlyValue>
+  <app-readonly-input [style]="style" [value]="value">{{
+    value
+  }}</app-readonly-input>
+</ng-template>
+<ng-template #loadingData>
+  <span class="loading-inline left"></span>
+</ng-template>

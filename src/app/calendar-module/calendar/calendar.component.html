@@ -1,1 +1,68 @@
-<p>calendar works!</p>
+<div class="cc-padding" *ngIf="!loading; else load">
+  <div class="d-flex flex-row align-items-center mb-2 justify-content-between">
+    <div class="d-flex flex-row align-items-center">
+      <button class="btn btn-primary" (click)="setMonth(-1)">
+        <fa-icon [icon]="leftIcon"></fa-icon>
+      </button>
+      <div class="large">
+        {{ date | date : "MMMM" }}
+      </div>
+
+      <button class="btn btn-primary" (click)="setMonth(+1)">
+        <fa-icon [icon]="rightIcon"></fa-icon>
+      </button>
+    </div>
+    <button
+      class="btn btn-primary"
+      (click)="generatePlan()"
+      [disabled]="!canGeneratePlan()"
+    >
+      Generate Plan For Month
+    </button>
+  </div>
+
+  <ul>
+    <li *ngFor="let cat of calendar.categories; let i = index">
+      <div class="d-flex flex-row justify-content-between">
+        <div class="days ms-2">{{ days[i] }}</div>
+        <div class="me-2">
+          {{ cat.name }}
+          <fa-icon
+            [icon]="editIcon"
+            class="clickable-icon"
+            (click)="editCategory(cat)"
+          ></fa-icon>
+        </div>
+      </div>
+    </li>
+    <li
+      class="dates"
+      *ngFor="let day of calendarDays"
+      [ngClass]="{ grey: !isSameMonth(day.date) }"
+    >
+      <div class="d-flex flex-column">
+        <div class="d-flex flex-row justify-content-between">
+          <div>{{ day.date | date : "d" }}</div>
+          <fa-icon
+            [icon]="editIcon"
+            class="clickable-icon"
+            (click)="updateRecipeOnDay(day)"
+            size="xl"
+          ></fa-icon>
+        </div>
+
+        <a
+          class="meal"
+          *ngIf="day.meal"
+          routerLink="/recipe/{{ day.meal.recipe.id }}"
+        >
+          {{ day.meal.recipe.name }}
+        </a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<ng-template #load>
+  <div class="loading"></div>
+</ng-template>

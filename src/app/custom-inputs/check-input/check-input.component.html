@@ -1,0 +1,74 @@
+<ng-container *ngIf="labelPosition === 'top'">
+  <ng-container *ngTemplateOutlet="label"></ng-container>
+</ng-container>
+<div
+  class="input-wrap"
+  [style.border-color]="getBorderColor()"
+  [ngClass]="{ 'wrap-disabled': isDisabled() }"
+>
+  <!-- *ngIf="!isReadonly(); else readonlyValue" -->
+
+  <ng-container *ngIf="labelPosition !== 'top'">
+    <ng-container *ngTemplateOutlet="label"></ng-container>
+  </ng-container>
+  <input
+    [attr.id]="htmlId || null"
+    class="form-checkbox"
+    type="checkbox"
+    [disabled]="isDisabled()"
+    [(ngModel)]="value"
+    (blur)="triggerOnTouched()"
+    (change)="handleChange($event)"
+  />
+  <fa-icon
+    *ngIf="hasErrors()"
+    id="icon-error"
+    [icon]="faExclamationTriangle"
+    size="lg"
+    class="pr10 error-color pointer"
+    (click)="errorTooltip.toggle()"
+    [matTooltip]="transform(errors)"
+    #errorTooltip="matTooltip"
+    matTooltipClass="tooltip-list error"
+    matTooltipPosition="above"
+  ></fa-icon>
+  <fa-icon
+    *ngIf="hasWarnings()"
+    id="icon-warning"
+    [icon]="faExclamationCircle"
+    size="lg"
+    class="pr10 warning-color pointer"
+    (click)="warningTooltip.toggle()"
+    [matTooltip]="transform(warnings)"
+    #warningTooltip="matTooltip"
+    matTooltipClass="tooltip-list warning"
+    matTooltipPosition="above"
+  ></fa-icon>
+</div>
+<ng-template #label>
+  <app-input-heading
+    [heading]="heading"
+    [required]="required"
+    [readonly]="readonly"
+    [labelPosition]="labelPosition"
+    [labelWidth]="labelWidth"
+    [labelFor]="htmlId"
+  ></app-input-heading>
+</ng-template>
+<!-- <ng-template #readonlyValue>
+  <div class="input-wrap">
+    <fa-icon
+      *ngIf="value === true; else unchecked"
+      id="icon-checked"
+      [icon]="faSquareCheck"
+      size="xl"
+      style="color: #0075ff"
+    ></fa-icon>
+    <ng-template #unchecked>
+      <fa-icon id="icon-unchecked" [icon]="faSquare" size="xl"></fa-icon>
+    </ng-template>
+  </div>
+</ng-template> -->
+<ng-template #loadingData>
+  <span class="loading-inline left"></span>
+</ng-template>

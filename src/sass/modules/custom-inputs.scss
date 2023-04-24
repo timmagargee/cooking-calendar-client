@@ -13,3 +13,12 @@
 #icon-warning {
   @include info-icon($color-warning);
 }
+
+.label-left {
+  display: flex;
+  align-items: center;
+
+  .input-wrap {
+    flex: 1 1 1px;
+  }
+}

@@ -1,0 +1,80 @@
+<div>
+  <div class="row">
+    <div class="col">
+      <app-select-input
+        heading="Amount"
+        placeholder="Amount Type"
+        [(ngModel)]="amountType"
+        [options]="amountTypeList"
+        (change)="onAmountTypeChange()"
+      >
+      </app-select-input>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-3 mt-4">
+      <app-number-input
+        [(ngModel)]="ing.amount"
+        [required]="true"
+        [isInteger]="showFractionAmountField()"
+        [isPositive]="true"
+        [disabled]="!showSingleAmountField()"
+      ></app-number-input>
+    </div>
+
+    <div class="col-3">
+      <app-number-input
+        [(ngModel)]="ing.amountNumerator"
+        [required]="true"
+        [isInteger]="true"
+        [isPositive]="true"
+        [disabled]="!showFractionAmountField()"
+      ></app-number-input>
+      <div class="fraction-separator my-1"></div>
+      <app-number-input
+        [(ngModel)]="ing.amountDenominator"
+        [required]="true"
+        [isInteger]="true"
+        [isPositive]="true"
+        [disabled]="!showFractionAmountField()"
+      ></app-number-input>
+    </div>
+    <div class="col-6">
+      <app-select-input
+        heading="Meas."
+        placeholder="Meas."
+        [(ngModel)]="ing.measurement"
+        [options]="measurementTypeList"
+      >
+      </app-select-input>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-9">
+      <app-select-input
+        heading="Ingredient"
+        placeholder="Ingredient"
+        [(ngModel)]="ingredientId"
+        [options]="ingredientSelectList"
+        (change)="onIngredientChange()"
+      >
+      </app-select-input>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary mt-4" (click)="addNewIngredient()">
+        Add New
+      </button>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col">
+      <app-text-input
+        heading="Ingredient Comment"
+        [(ngModel)]="ing.description"
+      >
+      </app-text-input>
+    </div>
+  </div>
+</div>

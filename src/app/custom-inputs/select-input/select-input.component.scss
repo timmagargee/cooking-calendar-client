@@ -1,0 +1,6 @@
+@import "../../../sass/mixins.scss";
+@import "../../../sass/modules/custom-inputs.scss";
+
+.input-wrap {
+  @include input-wrap-base;
+}

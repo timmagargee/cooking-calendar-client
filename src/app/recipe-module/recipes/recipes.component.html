@@ -1,0 +1,14 @@
+<div class="cc-padding example-wrapper">
+  <div class="page-top-bar">
+    <div class="page-title">Recipes</div>
+    <button class="btn btn-primary" (click)="addRecipe()">Add Recipe</button>
+  </div>
+  <div class="grid-wrapper mt-2">
+    <ag-grid-angular
+      id="grid-recipes"
+      class="ag-theme-balham"
+      [rowData]="recipes"
+      [gridOptions]="gridOptions"
+    ></ag-grid-angular>
+  </div>
+</div>

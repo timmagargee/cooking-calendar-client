@@ -26,6 +26,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@ng-bootstrap/ng-bootstrap": "^14.0.1",
     "@popperjs/core": "^2.11.6",
+    "ag-grid-angular": "^29.2.0",
+    "ag-grid-community": "^29.2.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
     "mdb-ui-kit": "^6.2.0",

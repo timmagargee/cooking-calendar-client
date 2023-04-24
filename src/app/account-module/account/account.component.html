@@ -1,1 +1,8 @@
-<p>account works!</p>
+<div
+  class="cc-padding d-flex h-100 flex-column"
+  *ngIf="!loading; else load"
+></div>
+
+<ng-template #load>
+  <div class="loading"></div>
+</ng-template>

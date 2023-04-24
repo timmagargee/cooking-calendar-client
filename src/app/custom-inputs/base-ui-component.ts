@@ -19,6 +19,8 @@ export abstract class BaseUiComponent implements ControlValueAccessor {
   @Input() public warnings: Array<string> = [];
   @Input() public isLoading: boolean | (() => boolean) = false;
   @Input() public labelWidth?: string;
+  @Input() public style: Record<string, string> = {};
+  @Input() public addDefaultErrors: boolean = true;
   @Output() public change = new EventEmitter<any>();
 
   public faExclamationTriangle = faExclamationTriangle;

@@ -1,3 +1,6 @@
+@import "../../../sass/mixins.scss";
+@import "../../../sass/modules/custom-inputs.scss";
+
 #span-required {
   color: #e32b24;
   padding-right: 4px;
@@ -5,4 +8,12 @@
 
 label.input-label {
   margin-bottom: 0px;
+}
+
+.label-left {
+  padding-bottom: 0px;
+  display: flex;
+  justify-content: right;
+  white-space: nowrap;
+  margin-right: 0.5rem;
 }

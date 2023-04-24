@@ -1,0 +1,27 @@
+.drag-list-item.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.example-chip .cdk-drop-list-dragging {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.fill-height {
+  flex-grow: 1;
+}
+
+.ingredient {
+  font-size: x-large;
+  .measurement {
+    font-weight: 700;
+    //width: 60px;
+  }
+}
+
+.step {
+  font-size: large;
+}
+
+.reorder-icon {
+  cursor: move;
+}

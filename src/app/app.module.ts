@@ -5,9 +5,16 @@ import {
 } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { Platform } from '@angular/cdk/platform';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import {
+  DateAdapter,
+  MAT_DATE_LOCALE,
+  MatNativeDateModule,
+  NativeDateAdapter,
+} from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {
@@ -23,7 +30,6 @@ import { HomeComponent } from './home/home.component';
 import { MenuComponent } from './menu/menu.component';
 import { AccountService } from './services/account.service';
 import { AppSettingsHttpService } from './services/app-settings-http.service';
-import { ToastService } from './services/toast.service';
 import { ShellComponent } from './shell/shell.component';
 import { ToastComponent } from './toast/toast.component';
 import { JwtInterceptor } from './utilities/jwt.interceptor';
@@ -31,6 +37,15 @@ import { JwtInterceptor } from './utilities/jwt.interceptor';
 export function appInit(settingsHttpService: AppSettingsHttpService): any {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   return () => settingsHttpService.initializeApp();
+}
+
+export class AppDateAdapter extends NativeDateAdapter {
+  public override format(date: Date): string {
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  }
 }
 
 @NgModule({
@@ -53,6 +68,7 @@ export function appInit(settingsHttpService: AppSettingsHttpService): any {
     BrowserAnimationsModule,
     NgbModule,
     MatSnackBarModule,
+    MatNativeDateModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
@@ -67,11 +83,15 @@ export function appInit(settingsHttpService: AppSettingsHttpService): any {
       useValue: {
         duration: 2500,
         horizontalPosition: 'center',
-        verticalPosition: 'top',
+        verticalPosition: 'bottom',
       },
     },
+    {
+      provide: DateAdapter,
+      useClass: AppDateAdapter,
+      deps: [MAT_DATE_LOCALE, Platform],
+    },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    ToastService,
     AccountService,
   ],
   bootstrap: [AppComponent],

@@ -1,0 +1,41 @@
+<h2 mat-dialog-title id="div-title" *ngIf="data.title">{{ data.title }}</h2>
+<mat-dialog-content class="mat-typography">
+  <ng-template dlgHost #templateref></ng-template>
+  <ng-container
+    *ngIf="data.template"
+    [ngTemplateOutlet]="data.template"
+  ></ng-container>
+  <ng-container *ngIf="data.message">
+    <h3 id="div-message">{{ data.message }}</h3>
+  </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions [align]="'end'" id="div-actions">
+  <button
+    mat-button
+    [mat-dialog-close]="result.yes"
+    class="btn btn-primary me-2"
+    id="btn-yes"
+    *ngIf="showYesButton"
+    [disabled]="!isValid()"
+  >
+    {{ yesButtonText }}
+  </button>
+  <button
+    mat-button
+    [mat-dialog-close]="result.no"
+    class="btn btn-secondary me-2"
+    id="btn-no"
+    *ngIf="showNoButton"
+  >
+    {{ noButtonText }}
+  </button>
+  <button
+    mat-button
+    [mat-dialog-close]="result.cancel"
+    class="btn btn-secondary me-2"
+    id="btn-cancel"
+    *ngIf="showCancelbutton"
+  >
+    {{ cancelButtonText }}
+  </button>
+</mat-dialog-actions>

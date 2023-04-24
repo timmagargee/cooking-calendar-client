@@ -23,17 +23,12 @@ import { LabelPosition } from '../input-options';
 })
 export class TextInputComponent extends BaseUiComponent {
   @Input() public labelPosition: LabelPosition = 'top';
-  @Input() public type?: string;
-  @Input() public maxlength?: string | number = 32;
+  @Input() public maxlength?: string | number = 255;
   @Output() public input = new EventEmitter<string>();
 
   public handleInput(event: Event): void {
     this.handleChange(event);
     this.input.emit(this.value);
-  }
-
-  public getType(): string {
-    return this.type || 'text';
   }
 
   public getMaxLength(): string {

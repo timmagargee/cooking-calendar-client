@@ -9,8 +9,9 @@
     [labelPosition]="labelPosition"
     [labelWidth]="labelWidth"
   ></app-input-heading>
-  <!-- *ngIf="!isReadonly(); else readonlyValue" -->
+
   <div
+    *ngIf="!isReadonly(); else readonlyValue"
     class="input-wrap"
     [style.border-color]="getBorderColor()"
     [ngClass]="{ 'wrap-disabled': isDisabled() }"
@@ -24,8 +25,8 @@
       (blur)="triggerOnTouched()"
       (input)="handleInput($event)"
       (change)="handleChange($event)"
-      [type]="getType()"
       [maxlength]="getMaxLength()"
+      [style]="style"
     />
     <fa-icon
       *ngIf="hasErrors()"
@@ -53,9 +54,11 @@
     ></fa-icon>
   </div>
 </ng-template>
-<!-- <ng-template #readonlyValue>
-  <e2g-read-only [value]="value"></e2g-read-only>
-</ng-template> -->
+<ng-template #readonlyValue>
+  <app-readonly-input [style]="style" [value]="value">{{
+    value
+  }}</app-readonly-input>
+</ng-template>
 <ng-template #loadingData>
   <span class="loading-inline left"></span>
 </ng-template>
