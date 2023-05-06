@@ -5,23 +5,29 @@
   background-color: $color-1;
 }
 
-.navbar a {
-  float: left;
-  font-size: 16px;
-  color: black;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
+.menu-big {
+  a {
+    float: left;
+    font-size: 16px;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+}
+
+.button {
+  background-color: $color-1;
 }
 
 .title {
   font-size: 72px;
+  white-space: nowrap;
   text-align: center;
-  left: 0;
-  right: 0;
+}
 
-  margin-left: auto;
-  margin-right: auto;
-
-  //position: absolute;
+@media (max-width: 1068px) {
+  .title {
+    font-size: 36px;
+  }
 }

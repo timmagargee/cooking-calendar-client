@@ -1,0 +1,14 @@
+@import "../../../sass/mixins.scss";
+@import "../../../sass/modules/custom-inputs.scss";
+
+.input-wrap {
+  @include input-wrap-base;
+}
+
+.mat-button-toggle {
+  background-color: $color-gray;
+}
+
+.mat-button-toggle-checked {
+  background-color: $color-1;
+}

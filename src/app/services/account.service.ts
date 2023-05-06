@@ -1,9 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
+import { ChangePasswordDto } from '../account-module/models/change-password-dto';
+import {
+  USER_SETTINGS,
+  USER_TOKEN,
+} from '../models/enums/local-storage-constants';
 import { LoginDto } from '../models/login-dto';
 import { User } from '../models/user';
 import { AppSettingsService } from './app-settings.service';
@@ -30,25 +35,48 @@ export class AccountService {
     return this.tokenSubject.value;
   }
 
-  login(user: User) {
+  public login(user: User): Observable<string | boolean> {
     return this.http.post<LoginDto>(`${this.serverUri}/login`, user).pipe(
       map((dto) => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('token', dto.token);
-        this.tokenSubject.next(dto.token);
-        return dto.token;
-      })
+        this.storeToken(dto);
+        return true;
+      }),
+      catchError(() => of(false))
     );
   }
 
-  logout() {
+  public logout() {
     // remove user from local storage and set current user to null
-    localStorage.removeItem('token');
+    localStorage.removeItem(USER_TOKEN);
     this.tokenSubject.next(null);
     this.router.navigate(['/login']);
   }
 
-  createAccount(user: User) {
-    return this.http.post(`${this.serverUri}/create`, user);
+  public createAccount(user: User): Observable<string | boolean> {
+    return this.http.post<LoginDto>(`${this.serverUri}/create`, user).pipe(
+      map((dto) => {
+        this.storeToken(dto);
+        return true;
+      }),
+      catchError((x) => of(x.error))
+    );
+  }
+
+  public changePassword(form: ChangePasswordDto): Observable<string | boolean> {
+    return this.http
+      .put<boolean>(`${this.serverUri}/update/password`, form)
+      .pipe(
+        map((x) => of(true)),
+        catchError((x) => {
+          return of(x.error);
+        })
+      );
+  }
+
+  private storeToken(dto: LoginDto) {
+    // store user details and jwt token in local storage to keep user logged in between page refreshes
+    localStorage.removeItem(USER_SETTINGS);
+    localStorage.setItem(USER_TOKEN, dto.token);
+    this.tokenSubject.next(dto.token);
   }
 }

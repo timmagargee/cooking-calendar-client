@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GridOptions, RowClickedEvent } from 'ag-grid-community';
 import { concatMap, of } from 'rxjs';
+import { BooleanColumnFilter } from 'src/app/grid/custom-column-filters';
+import { GridCheckboxComponent } from 'src/app/grid/grid-checkbox.component';
 import { DialogService } from 'src/app/shared/dialog.service';
 import { DialogButtons } from 'src/app/shared/models/dialog-buttons';
 import { DialogData } from 'src/app/shared/models/dialog-data';
@@ -24,23 +26,49 @@ export class RecipesComponent implements OnInit {
     onRowClicked: this.onRowClicked.bind(this),
     defaultColDef: {
       resizable: true,
-      width: 300,
+      sortable: true,
+      filter: true,
+      width: 200,
       minWidth: 100,
     },
     columnDefs: [
       {
         headerName: 'Recipe',
         field: 'name',
-        sortable: true,
+      },
+      {
+        headerName: 'Vegetarian',
+        field: 'isVegetarian',
+        width: 105,
+        cellRenderer: GridCheckboxComponent,
+        filterParams: BooleanColumnFilter,
+      },
+      {
+        headerName: 'Dairy Free',
+        field: 'isDairyFree',
+        width: 105,
+        cellRenderer: GridCheckboxComponent,
+        filterParams: BooleanColumnFilter,
+      },
+      {
+        headerName: 'Gluten Free',
+        field: 'isGlutenFree',
+        width: 115,
+        cellRenderer: GridCheckboxComponent,
+        filterParams: BooleanColumnFilter,
       },
       {
         headerName: 'Tags',
         field: 'tags',
+        sortable: false,
+        filter: false,
       },
       {
         headerName: 'Ingredients',
         field: 'ingredients',
         flex: 1,
+        sortable: false,
+        filter: false,
       },
     ],
   };
@@ -76,6 +104,7 @@ export class RecipesComponent implements OnInit {
       buttons: DialogButtons.YesCancel,
       component: AddRecipeFormComponent,
       componentData: formData,
+      yesButtonText: 'Save',
     } as DialogData;
 
     this.dialogService
@@ -89,8 +118,10 @@ export class RecipesComponent implements OnInit {
         })
       )
       .subscribe((recipeId) => {
-        this.stateService.setStartRecipeInEdit(true);
-        this.routeToRecipe(recipeId);
+        if (recipeId != -1) {
+          this.stateService.setStartRecipeInEdit(true);
+          this.routeToRecipe(recipeId);
+        }
       });
   }
 }

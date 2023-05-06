@@ -26,6 +26,7 @@
       <option *ngIf="placeholder" [ngValue]="undefined" disabled>
         Select {{ placeholder }}
       </option>
+      <option *ngIf="isNullOption" [ngValue]="undefined || null">None</option>
       <option
         *ngFor="let obj of selectOptions; trackBy: trackSelect"
         [ngValue]="obj.value !== undefined ? obj.value : obj.label"

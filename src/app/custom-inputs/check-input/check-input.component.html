@@ -15,7 +15,7 @@
     [attr.id]="htmlId || null"
     class="form-checkbox"
     type="checkbox"
-    [disabled]="isDisabled()"
+    [disabled]="isDisabled() || isReadonly()"
     [(ngModel)]="value"
     (blur)="triggerOnTouched()"
     (change)="handleChange($event)"

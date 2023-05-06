@@ -1,10 +1,10 @@
 <div class="cc-padding" *ngIf="!loading; else load">
-  <div class="d-flex flex-row align-items-center mb-2 justify-content-between">
-    <div class="d-flex flex-row align-items-center">
+  <div class="row-centered-wrap mb-2 justify-content-between">
+    <div class="row-centered me-2">
       <button class="btn btn-primary" (click)="setMonth(-1)">
         <fa-icon [icon]="leftIcon"></fa-icon>
       </button>
-      <div class="large">
+      <div class="large mx-2" style="width: 120px; text-align: center">
         {{ date | date : "MMMM" }}
       </div>
 
@@ -14,6 +14,7 @@
     </div>
     <button
       class="btn btn-primary"
+      style="min-width: 203px"
       (click)="generatePlan()"
       [disabled]="!canGeneratePlan()"
     >
@@ -21,18 +22,19 @@
     </button>
   </div>
 
-  <ul>
+  <ul class="large-only-content">
     <li *ngFor="let cat of calendar.categories; let i = index">
-      <div class="d-flex flex-row justify-content-between">
-        <div class="days ms-2">{{ days[i] }}</div>
-        <div class="me-2">
+      <div class="row-centered justify-content-between">
+        <div class="days mx-1">{{ days[i] }}</div>
+        <div class="ellipsis">
           {{ cat.name }}
-          <fa-icon
-            [icon]="editIcon"
-            class="clickable-icon"
-            (click)="editCategory(cat)"
-          ></fa-icon>
         </div>
+
+        <fa-icon
+          [icon]="editIcon"
+          class="clickable-icon"
+          (click)="editCategory(cat)"
+        ></fa-icon>
       </div>
     </li>
     <li
@@ -61,8 +63,58 @@
       </div>
     </li>
   </ul>
+
+  <ul class="small-only-content">
+    <div class="sub-title mb-2">Categories</div>
+    <li *ngFor="let cat of calendar.categories; let i = index">
+      <div class="row-centered justify-content-between">
+        <div class="bold">{{ days[i] }}</div>
+        <div>
+          {{ cat.name }}
+        </div>
+
+        <fa-icon
+          [icon]="editIcon"
+          class="clickable-icon"
+          (click)="editCategory(cat)"
+          size="xl"
+        ></fa-icon>
+      </div>
+    </li>
+    <div class="sub-title my-2">Days</div>
+    <li *ngFor="let day of calendarDays">
+      <div *ngIf="isSameMonth(day.date)" class="d-flex flex-column">
+        <div class="row-centered justify-content-between">
+          <div class="bold">{{ day.date | date : "dd" }}:</div>
+          <a *ngIf="day.meal" routerLink="/recipe/{{ day.meal.recipe.id }}">
+            {{ day.meal.recipe.name }}
+          </a>
+          <div *ngIf="!day.meal" style="font-weight: 100">Unplanned</div>
+          <fa-icon
+            [icon]="editIcon"
+            class="clickable-icon ms-2"
+            (click)="updateRecipeOnDay(day)"
+            size="xl"
+          ></fa-icon>
+        </div>
+      </div>
+    </li>
+  </ul>
 </div>
 
 <ng-template #load>
   <div class="loading"></div>
+</ng-template>
+
+<ng-template #assignMealForm>
+  <app-select-input
+    heading="Recipe"
+    [options]="recipes"
+    [(ngModel)]="mealFormData.recipeId"
+    placeholder="Recipe"
+  ></app-select-input>
+  Or
+  <button class="btn btn-primary mt-2" (click)="searchForRecipe()">
+    Search In Recipes
+  </button>
 </ng-template>

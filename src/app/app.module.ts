@@ -7,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { Platform } from '@angular/cdk/platform';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { DatePipe } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import {
@@ -93,6 +94,7 @@ export class AppDateAdapter extends NativeDateAdapter {
     },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     AccountService,
+    DatePipe,
   ],
   bootstrap: [AppComponent],
 })

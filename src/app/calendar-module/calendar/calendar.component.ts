@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   faChevronLeft,
@@ -6,8 +6,10 @@ import {
   faPenToSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import { Subject, of, startWith, switchMap } from 'rxjs';
+import { SelectOption } from 'src/app/custom-inputs/models/select-option';
 import { Category } from 'src/app/models/category-dto';
 import { ActionType } from 'src/app/models/enums/action-type';
+import { RecipeDataService } from 'src/app/recipe-module/recipe-data.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { DialogService } from 'src/app/shared/dialog.service';
 import { DialogButtons } from 'src/app/shared/models/dialog-buttons';
@@ -17,6 +19,7 @@ import { StateService } from 'src/app/state.service';
 import { isDateEqual } from 'src/app/utilities/date_utility';
 import { CalendarDataService } from '../calendar-data.service';
 import { CategoryFormComponent } from '../category-form/category-form.component';
+import { AssignMealDto } from '../models/assign-meal-dto';
 import { CalendarDto } from '../models/calendar-dto';
 import { DateFilters } from '../models/date-filters';
 import { MealDto } from '../models/meal-dto';
@@ -33,7 +36,9 @@ interface CalendarDate {
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit {
-  @Output() selected = new EventEmitter();
+  @ViewChild('assignMealForm', { static: true })
+  public assignMealForm!: TemplateRef<any>;
+
   public dates: Array<Date>;
   public days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   public date = new Date();
@@ -46,10 +51,13 @@ export class CalendarComponent implements OnInit {
   public rightIcon = faChevronRight;
   public loading = true;
   public calendarDays: Array<CalendarDate> = [];
+  public recipes: Array<SelectOption> = [];
+  public mealFormData!: AssignMealDto;
   private today = new Date();
 
   constructor(
     private dataService: CalendarDataService,
+    private recipeService: RecipeDataService,
     private dialogService: DialogService,
     private toastService: ToastService,
     private router: Router,
@@ -124,7 +132,58 @@ export class CalendarComponent implements OnInit {
   }
 
   public updateRecipeOnDay(day: CalendarDate) {
-    this.stateService.setDateToAssign(day.date);
+    if ((this.recipes = [])) {
+      this.recipeService
+        .getRecipes()
+        .subscribe(
+          (x) => (this.recipes = x.map((y) => ({ label: y.name, value: y.id })))
+        );
+    }
+
+    if (day.meal) {
+      this.mealFormData = {
+        mealId: day.meal.id,
+        recipeId: day.meal.recipe.id,
+        mealDate: day.date,
+      };
+    } else {
+      this.mealFormData = {
+        mealDate: day.date,
+      } as AssignMealDto;
+    }
+
+    const dialogData: DialogData = {
+      title: 'Update Meal',
+      template: this.assignMealForm,
+      buttons: DialogButtons.YesCancel,
+      width: '400px',
+      yesButtonText: 'Save',
+      validityCallback: (): boolean => {
+        return this.mealFormData.recipeId !== undefined;
+      },
+    } as DialogData;
+
+    this.dialogService
+      .display(dialogData)
+      .pipe(
+        switchMap((dialogResult) => {
+          if (dialogResult === DialogResult.yes) {
+            return this.dataService.assignMealToDate(this.mealFormData);
+          }
+          return of(undefined);
+        })
+      )
+      .subscribe((x) => {
+        if (x !== undefined) {
+          this.toastService.showActionToast(ActionType.update, x);
+          this.refreshMeals();
+        }
+      });
+  }
+
+  public searchForRecipe() {
+    this.dialogService.closeAll();
+    this.stateService.setDateToAssign(this.mealFormData.mealDate);
     this.router.navigate(['recipe']);
   }
 

@@ -1,8 +1,10 @@
-import { Category } from 'src/app/models/category-dto';
-
 export interface UserSettingsDto {
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
   isDefaultMeasurementStandard: boolean;
   isDarkMode: boolean;
-  isMonthDefaultView: boolean;
-  categories: Array<Category>;
+  defaultShoppingDay?: number;
+  defaultServings?: number;
 }

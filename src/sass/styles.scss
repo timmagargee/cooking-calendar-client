@@ -7,6 +7,10 @@
 @import "bootstrap/scss/bootstrap";
 /* You can add global styles to this file, and also import other style files */
 
+.menu-small {
+  display: none;
+}
+
 html {
   height: 100%;
 }
@@ -14,7 +18,6 @@ html {
 body {
   height: 100%;
   padding: 0px;
-  padding-top: $menu-height;
   font-family: "Cardo", sans-serif;
 }
 
@@ -47,16 +50,73 @@ h3 {
   font-family: "Oswald", sans-serif;
 }
 
+.list-title {
+  font-size: larger;
+  font-weight: bold;
+  text-align: center;
+
+  // color: $color-3;
+}
+
 .large {
   font-size: 24px;
 }
 
-nav {
-  min-height: $menu-height !important;
+@media (max-width: 768px) {
+  body {
+    height: 100%;
+  }
+
+  .menu-big {
+    display: none;
+  }
+
+  .menu-small {
+    display: block;
+  }
+
+  nav {
+    min-height: $menu-height !important;
+  }
+
+  body {
+    padding-top: $menu-height;
+  }
+
+  .small-only-content {
+    display: block;
+  }
+
+  .large-only-content {
+    display: none;
+  }
+
+  .cc-padding {
+    padding: 15px 5px 5px 5px;
+  }
 }
 
-.cc-padding {
-  padding: 25px 25px 10px 25px;
+@media (min-width: 768px) {
+  $menu-height: 79px;
+  nav {
+    min-height: $menu-height !important;
+  }
+
+  body {
+    padding-top: $menu-height;
+  }
+
+  .small-only-content {
+    display: none;
+  }
+
+  .large-only-content {
+    display: block;
+  }
+
+  .cc-padding {
+    padding: 25px 25px 10px 25px;
+  }
 }
 
 .container,
@@ -123,4 +183,74 @@ option:disabled {
 
 .clickable-icon {
   cursor: pointer;
+}
+
+.row-centered {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  // flex-wrap: wrap;
+  // line-height: 50px;
+}
+
+.row-centered-wrap {
+  flex-wrap: wrap;
+  line-height: 50px;
+  @extend .row-centered;
+}
+
+.checklist {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  li {
+    @extend .row-centered;
+  }
+}
+
+.form-section {
+  border-color: $color-gray;
+  border-width: 1px;
+  border-style: solid;
+  padding-bottom: 10px;
+  .title {
+    color: $color-1;
+    font-size: x-large;
+    font-weight: bold;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .sub-title {
+    color: $color-2;
+    font-size: large;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.warning {
+  color: $color-warning;
+  font-weight: bold;
+}
+
+.danger {
+  color: $color-danger;
+  font-weight: bold;
 }

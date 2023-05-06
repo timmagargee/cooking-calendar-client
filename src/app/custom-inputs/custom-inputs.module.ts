@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
@@ -14,6 +15,7 @@ import { ReadonlyInputComponent } from './readonly-input/readonly-input.componen
 import { SelectInputComponent } from './select-input/select-input.component';
 import { TextAreaInputComponent } from './text-area-input/text-area-input.component';
 import { TextInputComponent } from './text-input/text-input.component';
+import { UnitSystemComponent } from './unit-system/unit-system.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { TextInputComponent } from './text-input/text-input.component';
     CheckInputComponent,
     ReadonlyInputComponent,
     DateInputComponent,
+    UnitSystemComponent,
   ],
   imports: [
     CommonModule,
@@ -35,6 +38,7 @@ import { TextInputComponent } from './text-input/text-input.component';
     // NgSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatButtonToggleModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
@@ -46,6 +50,8 @@ import { TextInputComponent } from './text-input/text-input.component';
     TextAreaInputComponent,
     CheckInputComponent,
     DateInputComponent,
+    UnitSystemComponent,
+    MatButtonToggleModule,
   ],
 })
 export class CustomInputsModule {}

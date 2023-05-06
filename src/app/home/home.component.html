@@ -1,24 +1,84 @@
-<!-- <p>Welcome To cooking Calendar</p> -->
-<!-- <p><a routerLink="/users">Manage Users</a></p>
-<button class="btn btn-primary" (click)="callGetRecipe()">Get Recipe</button> -->
+<div class="cc-padding">
+  <h2 *ngIf="isNewUser" class="top-description pb-2">
+    Thank you for creating an account with cooking Calendar. When you're ready
+    to start simplifing your meal planning experience add a recipe by going to
+    the recipes tab.
+  </h2>
 
-<h2 class="top-description">
-  Thank you for creating an account with cooking Calendar. Read the descriptions
-  below for how to get started in each section. When you're ready to start
-  simplifing your meal planning experience add a recipe
-</h2>
-<button class="btn btn-primary" (click)="callGetRecipe()">Create Recipe</button>
-<div class="row">
-  <div class="home-col">
-    <h1>Next Meal</h1>
-    <p>Go to the calendar page to plan recipes</p>
-  </div>
-  <div class="home-col">
-    <h1>Shopping List</h1>
-    <p>Go to the shopping page to make a grocery list</p>
-  </div>
-  <div class="home-col">
-    <h1>Upcoming Meals</h1>
-    <p>Go to the calendar page to plan recipes</p>
+  <div class="home-row">
+    <div class="home-col">
+      <h1>Today's Menu</h1>
+      <div *ngIf="!isNewUser; else defaultMeal">
+        <div *ngIf="todaysRecipe; else defaultTodayMeal">
+          <a class="home-subtitle" routerLink="/recipe/{{ todaysRecipe.id }}">{{
+            todaysRecipe.name
+          }}</a>
+          <div
+            class="row-centered justify-content-center m-2"
+            style="font-size: large"
+          >
+            <b> Tags: </b>
+            <div class="ms-2" *ngFor="let t of todaysRecipe.tags">
+              {{ t }}
+            </div>
+          </div>
+          <div class="home-section-heading">Ingredients</div>
+          <div class="d-flex flex-wrap">
+            <div
+              *ngFor="let i of todaysRecipe.ingredients"
+              style="width: 50%; min-width: 150px"
+            >
+              {{ i }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="home-col">
+      <h1 routerLink="/shopping" class="pointer">Shopping List</h1>
+      <div
+        *ngIf="
+          shoppingItems && shoppingItems?.length != 0;
+          else defaultShopping
+        "
+      >
+        <div class="row">
+          <div class="col-md-6">
+            <div class="home-section-heading">Ingredients</div>
+            <div *ngFor="let item of shoppingGeneratedItems">
+              {{ item }}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="home-section-heading">Entered</div>
+            <div *ngFor="let item of shoppingEnteredItems">
+              {{ item }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="home-col">
+      <h1 routerLink="/calendar" class="pointer">Upcoming Meals</h1>
+      <div *ngIf="!isNewUser; else defaultMeal">
+        <div *ngFor="let meal of meals" class="row-centered">
+          <b class="meal-date">{{ mealDateString(meal) }}:</b>
+          <a class="ms-2" routerLink="/recipe/{{ meal.recipe.id }}">
+            {{ meal.recipe.name }}</a
+          >
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+<ng-template #defaultMeal>
+  <p>Go to the calendar page to plan meals</p>
+</ng-template>
+
+<ng-template #defaultShopping>
+  <p>Go to the shopping page to make a grocery list</p>
+</ng-template>
+
+<ng-template #defaultTodayMeal>
+  <p>No meal scheduled for today</p>
+</ng-template>

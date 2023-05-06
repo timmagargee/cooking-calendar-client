@@ -4,7 +4,7 @@ export interface Recipe {
   id: number;
   name: string;
   description: string;
-  servingSize: number;
+  servings: number;
   areMeasurementsStandard: boolean;
   tags: Array<RecipeTag>;
   ingredients: Array<RecipeIngredient>;

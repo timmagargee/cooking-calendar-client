@@ -5,6 +5,9 @@ $color-warning: #ffbf00;
 $color-danger: #d81e5b;
 $color-success: #28502e;
 
+$color-1-darker: darken(#d77ec4, 20);
+$color-1-lighter: lighten(#d77ec4, 20);
+
 $color-white: #e8e8e8;
 $color-white-disabled: #e9ecef;
 $color-black: black;
@@ -12,5 +15,4 @@ $color-gray: #495057;
 
 $primary: $color-1;
 $secondary: $color-2;
-
-$menu-height: 78px;
+$menu-height: 40px;

@@ -7,6 +7,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { USER_TOKEN } from '../models/enums/local-storage-constants';
 import { AppSettingsService } from '../services/app-settings.service';
 
 @Injectable()
@@ -18,7 +19,7 @@ export class JwtInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     // add auth header with jwt if user is logged in and request is to the api url
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(USER_TOKEN);
     //const token = this.accountService.tokenValue;
     const isLoggedIn = token !== null;
     const isApiUrl = request.url.startsWith(

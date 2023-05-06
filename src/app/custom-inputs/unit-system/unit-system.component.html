@@ -1,0 +1,23 @@
+<div class="row-centered">
+  <app-input-heading
+    [heading]="heading"
+    [required]="required"
+    [readonly]="readonly"
+    [labelWidth]="labelWidth"
+  ></app-input-heading>
+
+  <mat-button-toggle-group
+    class="ms-2"
+    [(ngModel)]="value"
+    [disabled]="isDisabled()"
+    (blur)="triggerOnTouched()"
+    (change)="handleChange($event)"
+  >
+    <mat-button-toggle [value]="true" [disabled]="disableUnselected && !value"
+      >Standard</mat-button-toggle
+    >
+    <mat-button-toggle [value]="false" [disabled]="disableUnselected && value"
+      >Metric</mat-button-toggle
+    >
+  </mat-button-toggle-group>
+</div>

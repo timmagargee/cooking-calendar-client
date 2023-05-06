@@ -19,15 +19,16 @@ import { SelectOption } from '../models/select-option';
 })
 export class SelectInputComponent extends BaseUiComponent implements OnDestroy {
   @Input() public labelPosition: LabelPosition = 'top';
+  @Input() public isNullOption: boolean = false;
   @Input() public set options(
     data: Array<SelectOption> | Observable<Array<SelectOption>>
   ) {
     if (data instanceof Observable) {
       data
         .pipe(takeUntil(this.destroy))
-        .subscribe((options) => (this.selectOptions = options));
+        .subscribe((options) => this.setOptions(options));
     } else if (Array.isArray(data)) {
-      this.selectOptions = data;
+      this.setOptions(data);
     } else {
       throw 'Unknown options type';
     }
@@ -41,7 +42,9 @@ export class SelectInputComponent extends BaseUiComponent implements OnDestroy {
   }
 
   public getReadOnlyValue(): string {
-    if (this.selectOptions && this.selectOptions.length > 0) {
+    if (this.isNullOption && this.value == undefined) {
+      return 'None';
+    } else if (this.selectOptions && this.selectOptions.length > 0) {
       const data = this.selectOptions.find((x) => x.value === this.value);
       if (data) {
         return data.label || data.label;
@@ -53,5 +56,9 @@ export class SelectInputComponent extends BaseUiComponent implements OnDestroy {
 
   public trackSelect(index: number, option: SelectOption): any {
     return option.value ? option.value : option.label;
+  }
+
+  private setOptions(options: Array<SelectOption>): void {
+    this.selectOptions = options;
   }
 }

@@ -1,1 +1,87 @@
-<p>shopping works!</p>
+<div class="cc-padding" *ngIf="!loading; else load">
+  <div class="row-centered-wrap justify-content-between">
+    <div class="row-centered-wrap mb-2">
+      <app-date-input [(ngModel)]="dates.startDate"></app-date-input>
+      <div class="large mx-2">Until</div>
+      <app-date-input [(ngModel)]="dates.endDate"></app-date-input>
+    </div>
+    <div *ngIf="!isEditing" class="row-centered mb-2">
+      <button
+        *ngIf="shoppingList"
+        class="btn btn-danger me-2"
+        [disabled]="!hasCheckedItems()"
+        (click)="clearChecked()"
+      >
+        Clear Checked
+      </button>
+      <button class="btn btn-primary" (click)="generateList()">
+        Generate List
+      </button>
+    </div>
+
+    <div *ngIf="isEditing" class="row-centered mb-2">
+      <button class="btn btn-secondary me-2" (click)="onCancel()">
+        Cancel
+      </button>
+      <button
+        class="btn btn-primary"
+        [disabled]="!readyToSave()"
+        (click)="onSave()"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+  <div *ngIf="shoppingList; else default" class="row h-100">
+    <div class="col-md-4 col-sm-6 border">
+      <div class="list-title">Meals</div>
+      <ul class="checklist">
+        <li *ngFor="let item of shoppingList.generatedItems">
+          <app-check-input
+            [(ngModel)]="item.isChecked"
+            (change)="editMade()"
+          ></app-check-input>
+          <div class="ms-1">
+            {{ item.name }}: <b> {{ item.measLabel }} </b>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="row col-md-8 col-sm-6">
+      <div class="col-md-6 border">
+        <app-entered-item-list
+          heading="Drinks"
+          [list]="enteredLists.get(shoppingCategory.Drink)!"
+          [category]="shoppingCategory.Drink"
+          (change)="editMade()"
+        ></app-entered-item-list>
+        <app-entered-item-list
+          heading="Snacks"
+          [list]="enteredLists.get(shoppingCategory.Snack)!"
+          [category]="shoppingCategory.Snack"
+          (change)="editMade()"
+        ></app-entered-item-list>
+      </div>
+      <div class="col-md-6 border">
+        <app-entered-item-list
+          heading="Other"
+          [list]="enteredLists.get(shoppingCategory.Other)!"
+          [category]="shoppingCategory.Other"
+          (change)="editMade()"
+        ></app-entered-item-list>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #load>
+  <div class="loading"></div>
+</ng-template>
+
+<ng-template #default>
+  <h2>
+    Add recipes using the recipes and meals on the calendar first. Then select a
+    date ranges and click the generate list button to automatically get a list
+    of all ingredients you need
+  </h2>
+</ng-template>

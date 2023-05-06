@@ -1,11 +1,33 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
-  <div class="navbar">
-    <a routerLink="/">Home</a>
-    <a routerLink="/recipe">Recipe</a>
-    <a routerLink="/calendar">Calendar</a>
-    <a routerLink="/shopping">Shopping</a>
-    <a routerLink="/account">Account</a>
+<nav class="navbar navbar-expand-md fixed-top">
+  <div class="menu-big">
+    <div class="row-centered">
+      <div class="navbar">
+        <a routerLink="/">Home</a>
+        <a routerLink="/recipe">Recipe</a>
+        <a routerLink="/calendar">Calendar</a>
+        <a routerLink="/shopping">Shopping</a>
+        <a routerLink="/account">Account</a>
+      </div>
+      <div class="title ms-4">Cooking Calendar</div>
+    </div>
   </div>
-  <!-- <div class="title">Cooking Calendar</div> -->
-  <div class="title">CC</div>
+
+  <div class="menu-small">
+    <div class="row-centered">
+      <div>
+        <button mat-button class="btn btn-primary" [matMenuTriggerFor]="menu">
+          <fa-icon class="mx-2" [icon]="smallMenuIcon" size="lg"></fa-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <a mat-menu-item routerLink="/">Home</a>
+          <a mat-menu-item routerLink="/recipe">Recipe</a>
+          <a mat-menu-item routerLink="/calendar">Calendar</a>
+          <a mat-menu-item routerLink="/shopping">Shopping</a>
+          <a mat-menu-item routerLink="/account">Account</a>
+        </mat-menu>
+      </div>
+
+      <div class="title">Cooking Calendar</div>
+    </div>
+  </div>
 </nav>

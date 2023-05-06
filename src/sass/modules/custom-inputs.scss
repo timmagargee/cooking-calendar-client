@@ -1,7 +1,7 @@
 @use "../variables.scss";
 
 @mixin info-icon($color) {
-  background-color: $color;
+  color: $color;
   padding-right: 10px;
   cursor: pointer;
 }

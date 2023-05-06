@@ -1,3 +1,22 @@
-.top-description {
-  //width: 75%;
+@import "../../sass/variables.scss";
+
+.home-subtitle {
+  font-size: x-large;
+  color: $color-1;
+}
+
+.home-section-heading {
+  font-size: large;
+  padding-bottom: 8px;
+  text-decoration: underline;
+  //color: $color-2;
+}
+
+.list-text {
+  text-align: left;
+}
+
+.meal-date {
+  width: 76px;
+  text-align: right;
 }

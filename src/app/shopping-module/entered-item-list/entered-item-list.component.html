@@ -1,0 +1,33 @@
+<div class="list-title">{{ heading }}</div>
+<ul class="checklist">
+  <li class="w-100" *ngFor="let item of list">
+    <app-check-input
+      [(ngModel)]="item.isChecked"
+      (change)="editMade()"
+    ></app-check-input>
+    <div *ngIf="!item.isBeingEdited" class="ms-1">
+      {{ item.name }}
+      <fa-icon
+        [icon]="editIcon"
+        class="clickable-icon ms-2"
+        (click)="item.isBeingEdited = true; editMade()"
+        size="lg"
+      ></fa-icon>
+    </div>
+    <div *ngIf="item.isBeingEdited" class="row-centered w-100 ms-1">
+      <app-text-input class="w-100" [(ngModel)]="item.name"> </app-text-input>
+      <fa-icon
+        [icon]="doneEditingIcon"
+        class="clickable-icon ms-2"
+        (click)="item.isBeingEdited = false; editMade()"
+        size="lg"
+      ></fa-icon>
+    </div>
+  </li>
+  <fa-icon
+    [icon]="addIcon"
+    class="clickable-icon"
+    (click)="addItem()"
+    size="lg"
+  ></fa-icon>
+</ul>

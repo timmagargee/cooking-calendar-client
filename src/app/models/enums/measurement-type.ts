@@ -28,7 +28,7 @@ export enum MeasurementType {
   MM = 106,
   CM = 107,
   M = 108,
-  Celcius = 108,
+  Celcius = 109,
 }
 
 const AbbrMeas = new Map<MeasurementType, string>([

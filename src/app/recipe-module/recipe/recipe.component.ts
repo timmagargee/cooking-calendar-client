@@ -58,7 +58,7 @@ export class RecipeComponent implements OnInit {
   public tagOptions: Array<SelectOption> = [];
   public newTag: NewTagDto = { name: '' };
   public tagErrors = [];
-  public initialServingSize = 0;
+  public initialServings = 0;
 
   public newStepIngredient!: RecipeStepIngredient;
   public stepIngredientOptions: Array<SelectOption> = [];
@@ -101,7 +101,7 @@ export class RecipeComponent implements OnInit {
       )
       .subscribe((x) => {
         this.recipe = x;
-        this.initialServingSize = this.recipe.servingSize;
+        this.initialServings = this.recipe.servings;
         if (this.stateService.staticState.startRecipeInEdit) {
           this.stateService.setStartRecipeInEdit(false);
           this.startEditing();
@@ -128,7 +128,7 @@ export class RecipeComponent implements OnInit {
     if (this.tagList.length == 0) {
       this.refreshTagList();
     }
-    this.recipe.servingSize = this.initialServingSize;
+    this.recipe.servings = this.initialServings;
     this.isEditing = true;
     this.initialRecipe = { ...this.recipe };
   }
@@ -258,9 +258,7 @@ export class RecipeComponent implements OnInit {
       event.previousIndex,
       event.currentIndex
     );
-    this.recipe.ingredients.forEach((x, i) => {
-      x.sortOrder = i + 1;
-    });
+    this.refreshIngredientSortOrder();
   }
 
   public addIngredient() {
@@ -303,6 +301,19 @@ export class RecipeComponent implements OnInit {
       });
   }
 
+  public removeIngredient(sortOrder: number) {
+    this.recipe.ingredients = this.recipe.ingredients.filter(
+      (x) => x.sortOrder !== sortOrder
+    );
+    this.refreshIngredientSortOrder();
+  }
+
+  private refreshIngredientSortOrder(): void {
+    this.recipe.ingredients.forEach((x, i) => {
+      x.sortOrder = i + 1;
+    });
+  }
+
   public addStep() {
     this.recipe.steps.push({
       step: '',
@@ -313,6 +324,17 @@ export class RecipeComponent implements OnInit {
 
   public dropStep(event: CdkDragDrop<RecipeStep[]>) {
     moveItemInArray(this.recipe.steps, event.previousIndex, event.currentIndex);
+    this.refreshStepSortOrder();
+  }
+
+  public removeStep(stepNumber: number) {
+    this.recipe.steps = this.recipe.steps.filter(
+      (x) => x.sortOrder !== stepNumber
+    );
+    this.refreshStepSortOrder();
+  }
+
+  private refreshStepSortOrder(): void {
     this.recipe.steps.forEach((x, i) => {
       x.sortOrder = i + 1;
     });
@@ -377,17 +399,14 @@ export class RecipeComponent implements OnInit {
     let amount = ing.amount;
     let numerator = ing.amountNumerator;
     let denominator = ing.amountDenominator;
-    if (
-      !this.isEditing &&
-      this.initialServingSize !== this.recipe.servingSize
-    ) {
+    if (!this.isEditing && this.initialServings !== this.recipe.servings) {
       if (amount) {
-        amount *= this.recipe.servingSize / this.initialServingSize;
+        amount *= this.recipe.servings / this.initialServings;
       }
       if (numerator) {
         const fraction = reduceFraction(
-          numerator * this.recipe.servingSize,
-          denominator! * this.initialServingSize
+          numerator * this.recipe.servings,
+          denominator! * this.initialServings
         );
         numerator = fraction[0];
         denominator = fraction[1];
@@ -398,13 +417,22 @@ export class RecipeComponent implements OnInit {
       ? amount.toLocaleString(this.locale, {
           minimumFractionDigits: 0,
           maximumFractionDigits: 3,
-        }) + ' '
+        })
       : '';
-    if (numerator) {
-      s += `${numerator}/${denominator} `;
+    if (numerator && denominator) {
+      if (denominator == 1) {
+        s += `${numerator}`;
+      } else if (numerator > denominator) {
+        s += `${Math.floor(numerator / denominator)} ${
+          numerator % denominator
+        }/${denominator}`;
+        numerator -= denominator;
+      } else if (numerator > 0) {
+        s += `${numerator}/${denominator}`;
+      }
     }
     if (ing.measurement != MeasurementType.Amount) {
-      s += getMeasurementString(ing.measurement!);
+      s += ' ' + getMeasurementString(ing.measurement!);
     }
     return s;
   }

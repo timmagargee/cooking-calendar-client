@@ -45,7 +45,7 @@ export abstract class BaseUiComponent implements ControlValueAccessor {
     this.value = value;
   }
 
-  public handleChange(event?: Event): void {
+  public handleChange(event?: any): void {
     if (event && 'stopPropagation' in event) {
       event.stopPropagation();
     }

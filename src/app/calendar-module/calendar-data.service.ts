@@ -38,6 +38,18 @@ export class CalendarDataService {
     );
   }
 
+  public getUpcomingMeals(filters: DateFilters) {
+    const options = {
+      params: new HttpParams()
+        .set('startDate', filters.startDate.toISOString())
+        .set('endDate', filters.endDate.toISOString()),
+    };
+    return this.http.get<Array<MealDto>>(
+      `${this.serverUri}/all/meals`,
+      options
+    );
+  }
+
   public updateCategory(calId: number, cat: Category) {
     return this.http.put(`${this.serverUri}/${calId}/category`, cat).pipe(
       map(() => true),

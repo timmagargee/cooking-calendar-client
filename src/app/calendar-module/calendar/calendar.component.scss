@@ -1,25 +1,37 @@
-ul {
+ul.large-only-content {
   margin: 0;
   padding: 0;
   list-style: none;
-}
-li {
-  display: inline-block;
-  border: 1px solid #ccc;
-  width: calc(100% / 7);
 
-  &.dates {
-    height: 75px;
+  li {
+    display: inline-block;
+    border: 1px solid #ccc;
+    width: calc(100% / 7);
+
+    &.dates {
+      height: 75px;
+    }
+    .days {
+      text-align: center;
+      font-weight: bold;
+    }
+    .meal {
+      // display: inline-flex;
+      text-align: center;
+    }
+    &.grey {
+      color: #ccc;
+    }
   }
-  .days {
+}
+
+ul.small-only-content {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  .sub-title {
+    font-size: x-large;
     text-align: center;
-    font-weight: bold;
-  }
-  .meal {
-    // display: inline-flex;
-    text-align: center;
-  }
-  &.grey {
-    color: #ccc;
   }
 }

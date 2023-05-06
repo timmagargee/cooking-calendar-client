@@ -1,6 +1,6 @@
 <div class="card">
   <h4 class="card-header">Login</h4>
-  <div class="card-body">
+  <div class="card-body pt-0">
     <div class="input-col-fixed">
       <app-text-input
         heading="Username"
@@ -15,7 +15,7 @@
         [required]="true"
       ></app-text-input>
     </div>
-    <div class="mt-2">
+    <div class="mt-4">
       <button
         [disabled]="loading || !isValid()"
         class="btn btn-primary me-2"
@@ -25,7 +25,7 @@
       </button>
       <button
         [disabled]="loading"
-        class="btn btn-primary"
+        class="btn btn-secondary"
         (click)="goToAccountCreation()"
       >
         Create Account

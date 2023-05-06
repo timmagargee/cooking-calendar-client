@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { AccountService } from 'src/app/services/account.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { stringIsFilled } from 'src/app/utilities/validation_helper';
 
 @Component({
@@ -9,19 +10,16 @@ import { stringIsFilled } from 'src/app/utilities/validation_helper';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   formData: User = {};
   loading = false;
-  submitted = false;
-  loginError = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private toastService: ToastService
   ) {}
-
-  ngOnInit() {}
 
   public isValid(): boolean {
     return (
@@ -31,24 +29,21 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submitted = true;
-
     // stop here if form is invalid
     if (!this.isValid()) {
       return;
     }
 
     this.loading = true;
-    this.accountService.login(this.formData).subscribe({
-      next: () => {
+    this.accountService.login(this.formData).subscribe((x) => {
+      if (x) {
         // get return url from query parameters or default to home page
         const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
         this.router.navigateByUrl(returnUrl);
-      },
-      error: (error) => {
-        this.loginError = true;
-        this.loading = false;
-      },
+      } else {
+        this.toastService.showToast('Username/Password does not exist');
+      }
+      this.loading = false;
     });
   }
 

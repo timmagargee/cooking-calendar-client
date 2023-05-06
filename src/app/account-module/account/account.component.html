@@ -1,8 +1,134 @@
-<div
-  class="cc-padding d-flex h-100 flex-column"
-  *ngIf="!loading; else load"
-></div>
+<div class="cc-padding h-100" *ngIf="!loading; else load">
+  <div class="row-centered-wrap justify-content-between mb-4">
+    <div class="page-title">Account</div>
+    <div *ngIf="isEditing" class="d-flex flex-row">
+      <button class="btn btn-secondary me-2" (click)="onCancel()">
+        Cancel
+      </button>
+      <button
+        class="btn btn-primary"
+        [disabled]="!isValid()"
+        (click)="onSave()"
+      >
+        Save
+      </button>
+    </div>
+    <div *ngIf="!isEditing" class="d-flex flex-row">
+      <button class="btn btn-secondary me-2" (click)="onLogout()">
+        Logout
+      </button>
+      <button class="btn btn-primary" (click)="startEditing()">
+        Edit Account
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-section col-md-6 col-sm-12">
+      <div class="title">Account Info</div>
+      <app-text-input
+        heading="UserName"
+        [(ngModel)]="settings.username"
+        [readonly]="!isEditing"
+        labelPosition="left"
+        [labelWidth]="labelWidth"
+        (input)="onUsernameInput()"
+        [errors]="usernameErrors"
+      ></app-text-input>
+      <div class="mt-2">
+        <app-text-input
+          heading="First Name"
+          [(ngModel)]="settings.firstName"
+          [readonly]="!isEditing"
+          labelPosition="left"
+          [labelWidth]="labelWidth"
+        ></app-text-input>
+      </div>
+      <div class="mt-2">
+        <app-text-input
+          heading="Last Name"
+          [(ngModel)]="settings.lastName"
+          [readonly]="!isEditing"
+          labelPosition="left"
+          [labelWidth]="labelWidth"
+        ></app-text-input>
+      </div>
+      <div class="mt-2">
+        <app-text-input
+          heading="Email"
+          [(ngModel)]="settings.email"
+          [readonly]="!isEditing"
+          labelPosition="left"
+          [labelWidth]="labelWidth"
+        ></app-text-input>
+      </div>
+      <div *ngIf="isEditing" class="mt-2">
+        <button class="btn btn-primary" (click)="onChangePassword()">
+          Change Password
+        </button>
+      </div>
+    </div>
+    <div class="form-section col-md-6 col-sm-12">
+      <div class="title">Default Settings</div>
+      <app-unit-system
+        heading="Recipe Measurement"
+        [(ngModel)]="settings.isDefaultMeasurementStandard"
+        [disableUnselected]="!isEditing"
+      ></app-unit-system>
+      <div class="mt-2">
+        <app-select-input
+          heading="Shopping Day"
+          [(ngModel)]="settings.defaultShoppingDay"
+          [readonly]="!isEditing"
+          labelPosition="left"
+          [options]="dayOptions"
+          [isNullOption]="true"
+        ></app-select-input>
+      </div>
+      <div class="mt-2">
+        <div class="sub-title">Planned Meal Number of Servings</div>
+        <div class="ms-4">
+          <app-check-input
+            heading="Override recipe default"
+            labelPosition="left"
+            [readonly]="!isEditing"
+            [(ngModel)]="overrideRecipeServings"
+          ></app-check-input>
+
+          <app-number-input
+            *ngIf="overrideRecipeServings"
+            heading="Set Serving Size"
+            [(ngModel)]="settings.defaultServings"
+            [readonly]="!isEditing"
+            labelPosition="left"
+            [isInteger]="true"
+            [isPositive]="true"
+            [numDigits]="2"
+          ></app-number-input>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-danger mt-4" (click)="onDelete()">
+    Delete Account
+  </button>
+</div>
 
 <ng-template #load>
   <div class="loading"></div>
+</ng-template>
+
+<ng-template #changePassword>
+  <div class="warning">{{ passwordFormError }}</div>
+  <app-text-input
+    [heading]="'Current Password'"
+    [(ngModel)]="changePasswordForm.oldPassword"
+  ></app-text-input>
+  <div class="mt-2">
+    <app-text-input
+      heading="New Password"
+      [(ngModel)]="changePasswordForm.newPassword"
+    ></app-text-input>
+  </div>
 </ng-template>

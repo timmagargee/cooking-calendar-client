@@ -1,5 +1,5 @@
 <div class="cc-padding d-flex h-100 flex-column" *ngIf="!loading; else load">
-  <div class="d-flex flex-row justify-content-between">
+  <div class="row-centered-wrap justify-content-between">
     <app-text-input
       [(ngModel)]="recipe.name"
       [required]="true"
@@ -12,19 +12,27 @@
       }"
       [readonly]="!isEditing"
     ></app-text-input>
-    <div *ngIf="isEditing" class="d-flex flex-row">
+    <div *ngIf="isEditing" class="row-centered">
       <button class="btn btn-secondary me-2" (click)="onCancel()">
         Cancel
       </button>
       <button class="btn btn-danger me-2" (click)="onDelete()">Delete</button>
       <button class="btn btn-primary" (click)="onSave()">Save</button>
     </div>
-    <div *ngIf="!isEditing" class="d-flex flex-row">
+    <div
+      *ngIf="!isEditing"
+      class="d-flex flex-row"
+      style="flex-wrap: wrap; min-width: 200px"
+    >
       <app-date-input
         [(ngModel)]="dateToAssign"
         [style]="{ width: '100px' }"
       ></app-date-input>
-      <button class="btn btn-primary mx-2" (click)="assignToDate()">
+      <button
+        class="btn btn-primary mx-2"
+        style="white-space: nowrap"
+        (click)="assignToDate()"
+      >
         Assign To Date
       </button>
       <button class="btn btn-primary" (click)="startEditing()">Edit</button>
@@ -34,7 +42,7 @@
     <div class="col-md-6">
       <app-number-input
         heading="Serving"
-        [(ngModel)]="recipe.servingSize"
+        [(ngModel)]="recipe.servings"
         [required]="true"
         [isInteger]="true"
         [isPositive]="true"
@@ -101,15 +109,13 @@
 
   <div class="row line my-2"></div>
   <div class="row flex-fill d-flex">
-    <div class="col-md-6 col-lg-4 border-end">
+    <div class="col-md-6 col-lg-4 border-end border-bottom">
       <div class="d-flex flex-row align-items-center justify-content-center">
         <div class="c-header me-2">Ingredients</div>
-        <mat-button-toggle-group [(ngModel)]="recipe.areMeasurementsStandard">
-          <mat-button-toggle [value]="true">Standard</mat-button-toggle>
-          <mat-button-toggle [value]="false" disabled="true"
-            >Metric</mat-button-toggle
-          >
-        </mat-button-toggle-group>
+        <app-unit-system
+          [(ngModel)]="recipe.areMeasurementsStandard"
+          [disableUnselected]="recipe.ingredients.length != 0 || !isEditing"
+        ></app-unit-system>
       </div>
       <div
         cdkDropList
@@ -117,7 +123,7 @@
         [cdkDropListDisabled]="!this.isEditing"
       >
         <div
-          class="drag-list-item d-flex flex-row ingredient mt-3"
+          class="drag-list-item row-centered ingredient mt-3"
           *ngFor="let ing of recipe.ingredients; let i = index"
           cdkDrag
         >
@@ -128,7 +134,7 @@
             [icon]="reorderIcon"
           ></fa-icon>
           <div class="ms-2">{{ ing.sortOrder! }}.</div>
-          <div class="measurement ms-2" style="font-weight: bold">
+          <div class="measurement ms-2 bold nowrap">
             {{ getMeasString(ing) }}
           </div>
           <div class="ms-2">
@@ -137,9 +143,14 @@
           <fa-icon
             *ngIf="isEditing"
             [icon]="editIcon"
-            class="clickable-icon"
-            class="ms-2"
+            class="clickable-icon ms-2"
             (click)="editIngredient(ing, i)"
+          ></fa-icon>
+          <fa-icon
+            *ngIf="isEditing"
+            [icon]="removeIcon"
+            class="clickable-icon align-right"
+            (click)="removeIngredient(ing.sortOrder!)"
           ></fa-icon>
         </div>
       </div>
@@ -154,8 +165,8 @@
         ></fa-icon>
       </div>
     </div>
-    <div class="col-md-6 col-lg-8">
-      <div class="c-header">Steps</div>
+    <div class="col-md-6 col-lg-8 border-bottom">
+      <div class="c-header mt-2">Steps</div>
       <div
         cdkDropList
         (cdkDropListDropped)="dropStep($event)"
@@ -192,6 +203,13 @@
             Reference <br />
             ingredient
           </button>
+          <fa-icon
+            *ngIf="isEditing"
+            [icon]="removeIcon"
+            size="lg"
+            class="clickable-icon ms-1"
+            (click)="removeStep(step.sortOrder)"
+          ></fa-icon>
         </div>
       </div>
       <div class="mt-3">

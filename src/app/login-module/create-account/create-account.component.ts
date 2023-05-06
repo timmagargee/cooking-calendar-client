@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { AccountService } from 'src/app/services/account.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -12,9 +11,10 @@ import { stringIsFilled } from 'src/app/utilities/validation_helper';
   styleUrls: ['./create-account.component.scss'],
 })
 export class CreateAccountComponent {
-  formData: User = {};
-  loading = false;
-  submitted = false;
+  public formData: User = {};
+  public loading = false;
+  public submitted = false;
+  public usernameErrors: Array<string> = [];
 
   public constructor(
     private route: ActivatedRoute,
@@ -24,19 +24,19 @@ export class CreateAccountComponent {
   ) {}
 
   public onSubmit() {
-    this.accountService
-      .createAccount(this.formData)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          this.toastService.showToast('Registration successful');
-          this.router.navigate(['../login'], { relativeTo: this.route });
-        },
-        error: (error) => {
-          this.toastService.showToast(error);
-          this.loading = false;
-        },
-      });
+    this.accountService.createAccount(this.formData).subscribe((x) => {
+      if (typeof x == 'boolean') {
+        this.toastService.showToast('Registration successful');
+        this.router.navigate(['home']);
+      } else {
+        this.usernameErrors = [x];
+        this.loading = false;
+      }
+    });
+  }
+
+  public onUsernameInput(): void {
+    this.usernameErrors = [];
   }
 
   public isValid(): boolean {
